@@ -1,11 +1,11 @@
 package com.vianneydiris.petclinic.services.map;
 
 import com.vianneydiris.petclinic.model.Owner;
-import com.vianneydiris.petclinic.services.CrudService;
+import com.vianneydiris.petclinic.services.OwnerService;
 
 import java.util.Set;
 
-public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements CrudService<Owner,Long> {
+public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements OwnerService {
     @Override
     public Set<Owner> findAll() {
         return super.findAll();
@@ -32,4 +32,8 @@ public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements C
     }
 
 
+    @Override
+    public Owner findByLastName(String lastName) {
+        return null;
+    }
 }

@@ -1,11 +1,11 @@
 package com.vianneydiris.petclinic.services.map;
 
 import com.vianneydiris.petclinic.model.Pet;
-import com.vianneydiris.petclinic.services.CrudService;
+import com.vianneydiris.petclinic.services.PetService;
 
 import java.util.Set;
 
-public class PetServiceMap extends AbstractMapService<Pet,Long> implements CrudService<Pet,Long> {
+public class PetServiceMap extends AbstractMapService<Pet,Long> implements PetService{
     @Override
     public Set<Pet> findAll() {
         return super.findAll();
