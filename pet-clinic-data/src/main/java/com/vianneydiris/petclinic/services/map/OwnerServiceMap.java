@@ -31,8 +31,31 @@ public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements O
     }
 
     @Override
-    public void deleteById(Long id) {
-        super.deleteById(id);
+    public Owner save(Owner object) {
+
+        if(object != null){
+            if (object.getPets() != null) {
+                object.getPets().forEach(pet -> {
+                    if (pet.getPetType() != null){
+                        if(pet.getPetType().getId() == null){
+                            pet.setPetType(petTypeService.save(pet.getPetType()));
+                        }
+                    } else {
+                        throw new RuntimeException("Pet Type is required");
+                    }
+
+                    if(pet.getId() == null){
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+                });
+            }
+
+            return super.save(object);
+
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -41,35 +64,16 @@ public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements O
     }
 
     @Override
-    public Owner save(Owner object) {
-        if (object!=null){
-            if (object.getPets()!=null){
-                object.getPets().forEach(pet -> {
-                    if (pet.getPetType()!=null){
-                        if (pet.getPetType().getId() == null){
-                            pet.setPetType(petTypeService.save(pet.getPetType()));
-                        }
-
-                    }else {
-                        throw new RuntimeException("PetType is required");
-                    }
-
-                    if (pet.getId() ==null){
-                        Pet petSaved = petService.save(pet);
-                        pet.setId(petSaved.getId());
-                    }
-
-                });
-            }
-            return super.save(object);
-        }else{
-            return null;
-        }
+    public void deleteById(Long id) {
+        super.deleteById(id);
     }
-
 
     @Override
     public Owner findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
 }
